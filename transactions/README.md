@@ -24,8 +24,9 @@ Business Logic - Standard discount
 A customer can use Discount code ONLY once. 
 Transaction should fail if customer attempts to re-use the discount.
 
-1. Decrease the Discount LeftCount   (UpdateItem)
-2. Add an Item indicating that customer has already availed the discount  (PutItem PK=CUST#xxx  SK=DISCOUNT#yyy)
+1. Decrease the Discount Remaining   (UpdateItem)
+2. Add an Item indicating that customer has already availed the discount  
+   (PutItem PK=CUST#xxx  SK=DISCOUNT#yyy)
 
 Run test
 --------
