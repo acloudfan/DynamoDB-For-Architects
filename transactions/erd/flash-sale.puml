@@ -4,11 +4,12 @@ skinparam backgroundColor transparent
 
 entity Discount {
     * DiscountId  <<PK>>
-    * CountLeft
+    * Remaining
 }
 
 entity LoyaltyDiscount {
     * LoyaltyDiscountId  <<PK>>
+    * Remaining
     * MinimumLoyaltyPoints
 }
 
