@@ -2,11 +2,13 @@
 # Reset the test environment #
 ##############################
 
-1. Delete table if it already exist
+1. Delete table if it already exist (use for retrying the steps)
 
 aws dynamodb delete-table --table-name FlashSaleDiscounts    --endpoint-url http://localhost:8000
 
-2. Import the model transactions/Flash-Sale-Discounts-Model.json to workbench
+2. Import the model  to workbench
+
+     transactions/Flash-Sale-Discounts-Model.json
 
 3. Commit to Local DynamoDB
 
@@ -19,8 +21,11 @@ https://awscli.amazonaws.com/v2/documentation/api/latest/reference/dynamodb/tran
 ----------------------------------
 Business Logic - Standard discount 
 ----------------------------------
+A customer can use Discount code ONLY once. 
+Transaction should fail if customer attempts to re-use the discount.
+
 1. Decrease the Discount LeftCount   (UpdateItem)
-2. Add an Item indicating that customer has already availed the discount  (PutItem)
+2. Add an Item indicating that customer has already availed the discount  (PutItem PK=CUST#xxx  SK=DISCOUNT#yyy)
 
 Run test - v1
 -------------
@@ -87,7 +92,7 @@ aws dynamodb delete-item --table-name FlashSaleDiscounts \
 Business Logic - Loyalty discount - v2
 ---------------------------------------
 1. Decrease the Loyalty Discount LeftCount   (UpdateItem)
-2. Check condition that customer has Loyalty points > MinimumLoyaltyPoints
+2. Check condition that customer has Loyalty points > MinimumLoyaltyPoints (ConditionCheck)
 3. Add an Item indicating that customer has availed the Loyalty discount  (PutItem)
 
 
