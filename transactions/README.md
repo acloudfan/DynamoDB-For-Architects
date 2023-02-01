@@ -27,8 +27,8 @@ Transaction should fail if customer attempts to re-use the discount.
 1. Decrease the Discount LeftCount   (UpdateItem)
 2. Add an Item indicating that customer has already availed the discount  (PutItem PK=CUST#xxx  SK=DISCOUNT#yyy)
 
-Run test - v1
--------------
+Run test
+--------
 1. Get the Remaining for the DISCOUNT#100 
 aws dynamodb get-item --table-name FlashSaleDiscounts \
     --key '{
@@ -89,13 +89,15 @@ aws dynamodb delete-item --table-name FlashSaleDiscounts \
   }' \
   --endpoint-url http://localhost:8000
 
-Business Logic - Loyalty discount - v2
----------------------------------------
+----------------------------------
+Business Logic - Loyalty discount
+----------------------------------
 1. Decrease the Loyalty Discount LeftCount   (UpdateItem)
 2. Check condition that customer has Loyalty points > MinimumLoyaltyPoints (ConditionCheck)
 3. Add an Item indicating that customer has availed the Loyalty discount  (PutItem)
 
-
+Run test
+--------
 1. Get the Remaining for the LOYALTY#5000
 aws dynamodb get-item --table-name FlashSaleDiscounts \
     --key '{
@@ -105,7 +107,7 @@ aws dynamodb get-item --table-name FlashSaleDiscounts \
     --projection-expression "Remaining" \
     --endpoint-url http://localhost:8000
 
-1. Apply LOYALTY#5000 discount that requires LoyaltyPoints > 5000
+2. Apply LOYALTY#5000 discount that requires LoyaltyPoints > 5000
 
 - Apply for John who has LoyaltyPoints = 1000
 
@@ -150,7 +152,7 @@ aws dynamodb transact-write-items  \
     ]'   \
     --endpoint-url http://localhost:8000
 
-1. Apply LOYALTY#5000 discount that requires LoyaltyPoints > 5000
+3. Apply LOYALTY#5000 discount that requires LoyaltyPoints > 5000
 
 - Apply for Anil who has LoyaltyPoints = 5001
 aws dynamodb transact-write-items  \
@@ -203,7 +205,8 @@ Business logic
 1. Increase the points by certain number
 2. Failure of operation should not lead to multiple applies
 
-
+Run test
+--------
 1. Check Loyalty points for John
 
 aws dynamodb get-item --table-name FlashSaleDiscounts \
