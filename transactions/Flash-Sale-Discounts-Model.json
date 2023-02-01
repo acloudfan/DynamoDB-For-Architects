@@ -3,7 +3,7 @@
   "ModelMetadata": {
     "Author": "raj@acloudfan.com",
     "DateCreated": "Feb 01, 2023, 05:46 AM",
-    "DateLastModified": "Feb 01, 2023, 06:04 AM",
+    "DateLastModified": "Feb 01, 2023, 06:20 AM",
     "Description": "This is part of a course \"DynamoDB for Architects\"",
     "AWSService": "Amazon DynamoDB",
     "Version": "3.0"
@@ -23,7 +23,7 @@
       },
       "NonKeyAttributes": [
         {
-          "AttributeName": "CountLeft",
+          "AttributeName": "Remaining",
           "AttributeType": "N"
         },
         {
@@ -43,7 +43,7 @@
           "SK": {
             "S": "DISCOUNT#100"
           },
-          "CountLeft": {
+          "Remaining": {
             "N": "10"
           }
         },
@@ -54,7 +54,7 @@
           "SK": {
             "S": "DISCOUNT#101"
           },
-          "CountLeft": {
+          "Remaining": {
             "N": "20"
           }
         },
@@ -65,7 +65,7 @@
           "SK": {
             "S": "DISCOUNT#102"
           },
-          "CountLeft": {
+          "Remaining": {
             "N": "10"
           }
         },
@@ -76,7 +76,7 @@
           "SK": {
             "S": "LOYALTY#5000"
           },
-          "CountLeft": {
+          "Remaining": {
             "N": "5"
           },
           "DiscountMinimumLoyaltyPoints": {
@@ -90,7 +90,7 @@
           "SK": {
             "S": "LOYALTY#10000"
           },
-          "CountLeft": {
+          "Remaining": {
             "N": "5"
           },
           "DiscountMinimumLoyaltyPoints": {

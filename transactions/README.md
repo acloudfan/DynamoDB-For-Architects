@@ -1,3 +1,15 @@
+##############################
+# Reset the test environment #
+##############################
+
+1. Delete table if it already exist
+
+aws dynamodb delete-table --table-name FlashSaleDiscounts    --endpoint-url http://localhost:8000
+
+2. Import the model transactions/Flash-Sale-Discounts-Model.json to workbench
+
+3. Commit to Local DynamoDB
+
 ######################
 # TransactWriteItems #
 ######################
@@ -12,13 +24,13 @@ Business Logic - Standard discount
 
 Run test - v1
 -------------
-1. Get the CountLeft for the DISCOUNT#100 
+1. Get the Remaining for the DISCOUNT#100 
 aws dynamodb get-item --table-name FlashSaleDiscounts \
     --key '{
         "PK": {"S": "DISCOUNT#100"},
         "SK": {"S": "DISCOUNT#100"}
     }' \
-    --projection-expression "CountLeft" \
+    --projection-expression "Remaining" \
     --endpoint-url http://localhost:8000
 
 2. Apply DISCOUNT#100 for CUST#john
@@ -32,9 +44,9 @@ aws dynamodb transact-write-items  \
                         "PK": {"S":"DISCOUNT#100"}, 
                         "SK": {"S":"DISCOUNT#100"}
                     },
-                    "UpdateExpression": "SET #CountLeft = #CountLeft - :DecreaseBy",
-                    "ConditionExpression": "#CountLeft > :MinCoupon",
-                    "ExpressionAttributeNames": {"#CountLeft":"CountLeft"},
+                    "UpdateExpression": "SET #Remaining = #Remaining - :DecreaseBy",
+                    "ConditionExpression": "#Remaining > :MinCoupon",
+                    "ExpressionAttributeNames": {"#Remaining":"Remaining"},
                     "ExpressionAttributeValues": {":DecreaseBy": {"N":"1"}, ":MinCoupon": {"N":"0"}}
                 }
             },
@@ -52,13 +64,13 @@ aws dynamodb transact-write-items  \
     ]'   \
     --endpoint-url http://localhost:8000
 
-3. Get the CountLeft for the DISCOUNT#100 
+3. Get the Remaining for the DISCOUNT#100 
 aws dynamodb get-item --table-name FlashSaleDiscounts \
     --key '{
         "PK": {"S": "DISCOUNT#100"},
         "SK": {"S": "DISCOUNT#100"}
     }' \
-    --projection-expression "CountLeft" \
+    --projection-expression "Remaining" \
     --endpoint-url http://localhost:8000
 
 
@@ -79,13 +91,13 @@ Business Logic - Loyalty discount - v2
 3. Add an Item indicating that customer has availed the Loyalty discount  (PutItem)
 
 
-1. Get the CountLeft for the LOYALTY#5000
+1. Get the Remaining for the LOYALTY#5000
 aws dynamodb get-item --table-name FlashSaleDiscounts \
     --key '{
         "PK": {"S": "LOYALTY#5000"},
         "SK": {"S": "LOYALTY#5000"}
     }' \
-    --projection-expression "CountLeft" \
+    --projection-expression "Remaining" \
     --endpoint-url http://localhost:8000
 
 1. Apply LOYALTY#5000 discount that requires LoyaltyPoints > 5000
@@ -101,9 +113,9 @@ aws dynamodb transact-write-items  \
                         "PK": {"S":"LOYALTY#5000"}, 
                         "SK": {"S":"LOYALTY#5000"}
                     },
-                    "UpdateExpression": "SET #CountLeft = #CountLeft - :DecreaseBy",
-                    "ConditionExpression": "#CountLeft > :MinCoupon",
-                    "ExpressionAttributeNames": {"#CountLeft":"CountLeft"},
+                    "UpdateExpression": "SET #Remaining = #Remaining - :DecreaseBy",
+                    "ConditionExpression": "#Remaining > :MinCoupon",
+                    "ExpressionAttributeNames": {"#Remaining":"Remaining"},
                     "ExpressionAttributeValues": {":DecreaseBy": {"N":"1"}, ":MinCoupon": {"N":"0"}}
                 }
             },
@@ -145,9 +157,9 @@ aws dynamodb transact-write-items  \
                         "PK": {"S":"LOYALTY#5000"}, 
                         "SK": {"S":"LOYALTY#5000"}
                     },
-                    "UpdateExpression": "SET #CountLeft = #CountLeft - :DecreaseBy",
-                    "ConditionExpression": "#CountLeft > :MinCoupon",
-                    "ExpressionAttributeNames": {"#CountLeft":"CountLeft"},
+                    "UpdateExpression": "SET #Remaining = #Remaining - :DecreaseBy",
+                    "ConditionExpression": "#Remaining > :MinCoupon",
+                    "ExpressionAttributeNames": {"#Remaining":"Remaining"},
                     "ExpressionAttributeValues": {":DecreaseBy": {"N":"1"}, ":MinCoupon": {"N":"0"}}
                 }
             },
@@ -181,6 +193,12 @@ aws dynamodb transact-write-items  \
 TransactWriteItems support Idempotency
 --------------------------------------
 
+Business logic
+--------------
+1. Increase the points by certain number
+2. Failure of operation should not lead to multiple applies
+
+
 1. Check Loyalty points for John
 
 aws dynamodb get-item --table-name FlashSaleDiscounts \
@@ -192,7 +210,9 @@ aws dynamodb get-item --table-name FlashSaleDiscounts \
     --endpoint-url http://localhost:8000
 
 2. Increase loyalty points for customer
+
 - For John increase Loyalty points by 500
+- You may run this command multiple times *BUT* the points will be incremented ONLY once
 
 aws dynamodb transact-write-items  \
     --client-request-token  1234567890,  \
@@ -210,4 +230,45 @@ aws dynamodb transact-write-items  \
             }
         }
     ]'   \
+    --endpoint-url http://localhost:8000
+
+3. Change the loyalty point from 500 to let's say 1500 & try out the command again
+   What was the result?
+
+####################
+# TransactGetItems #
+####################
+
+Business Logic - Get the latest Discount Code Remaining
+
+aws dynamodb transact-get-items \
+   --transact-items  '[
+            {
+                "Get": {
+                    "TableName": "FlashSaleDiscounts",
+                    "Key": {
+                        "PK": {"S":"DISCOUNT#100"}, 
+                        "SK": {"S":"DISCOUNT#100"}
+                    }
+                }
+            },
+            {
+                "Get": {
+                    "TableName": "FlashSaleDiscounts",
+                    "Key": {
+                        "PK": {"S":"DISCOUNT#101"}, 
+                        "SK": {"S":"DISCOUNT#101"}
+                    }
+                }
+            },
+            {
+                "Get": {
+                    "TableName": "FlashSaleDiscounts",
+                    "Key": {
+                        "PK": {"S":"DISCOUNT#102"}, 
+                        "SK": {"S":"DISCOUNT#102"}
+                    }
+                }
+            }            
+        ]'  \
     --endpoint-url http://localhost:8000
