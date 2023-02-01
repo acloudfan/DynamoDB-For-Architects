@@ -1,0 +1,44 @@
+{
+    "AttributeDefinitions": [
+      {
+        "AttributeName": "OrderDate",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "OrderId",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "Customer",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "OrderStatus",
+        "AttributeType": "S"
+      }
+    ],
+    "GlobalSecondaryIndexUpdates": [
+      {
+        "Create": {
+          "IndexName": "GSI_OrderDate",
+          "KeySchema": [
+            {
+              "AttributeName": "OrderDate",
+              "KeyType": "HASH"
+            },
+            {
+                "AttributeName": "OrderId",
+                "KeyType": "Range"
+            }
+          ],
+          "Projection": {
+            "ProjectionType": "ALL"
+          },
+          "ProvisionedThroughput": {
+            "ReadCapacityUnits": 5,
+            "WriteCapacityUnits": 5
+          }
+        }
+      }
+    ]
+  }

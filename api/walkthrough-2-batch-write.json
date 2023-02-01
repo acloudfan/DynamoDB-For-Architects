@@ -1,0 +1,40 @@
+{
+    "Employee": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "LoginAlias": {
+                        "S": "jamesk"
+                    },
+                    "FirstName": {
+                        "S": "James"
+                    },
+                    "LastName": {
+                        "S": "Kingsley"
+                    },
+                    "ManagerLoginAlias": {
+                        "S": "johns"
+                    },
+                    "Designation": {
+                        "S": "developer"
+                    },
+                    "Skills": {
+                        "SS": [
+                            "java",
+                            "aws"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "DeleteRequest": {
+                "Key": {
+                    "LoginAlias": {
+                        "S": "irenes"
+                    }
+                }
+            }
+        }
+    ]
+}

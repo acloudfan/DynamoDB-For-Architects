@@ -1,0 +1,96 @@
+{
+  "ModelName": "acme-bank-model-v1",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Dec 23, 2022, 12:59 PM",
+    "DateLastModified": "Dec 24, 2022, 04:53 PM",
+    "Description": "This is part of the course \"NoSQL for Architects & Developers\"",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "acme-bank-v1",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "customer_number",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "fname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "lname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "phone",
+          "AttributeType": "S"
+        }
+      ],
+      "TableData": [
+        {
+          "customer_number": {
+            "S": "CUST#101"
+          },
+          "fname": {
+            "S": "john"
+          },
+          "lname": {
+            "S": "doe"
+          },
+          "phone": {
+            "S": "555-555-5555"
+          }
+        },
+        {
+          "customer_number": {
+            "S": "CUST#102"
+          },
+          "fname": {
+            "S": "jane"
+          },
+          "lname": {
+            "S": "doe"
+          },
+          "phone": {
+            "S": "555-555-5566"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}

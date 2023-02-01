@@ -1,0 +1,29 @@
+@startuml
+
+skinparam backgroundColor transparent
+
+
+entity Country {
+    
+}
+
+entity Region {
+    
+}
+
+entity City {
+    
+}
+
+entity WH {
+    
+}
+
+
+Country ||--{ Region 
+Region ||--{ City 
+City ||--{ WH 
+
+
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+
+skinparam backgroundColor transparent
+
+
+entity Employee {
+    
+}
+
+entity Department {
+    
+}
+
+
+
+entity Address {
+    
+}
+
+
+
+entity Supplier {
+
+}
+
+entity Product {
+
+}
+
+entity Review {
+
+}
+
+
+
+
+entity Warehouse {
+
+}
+
+Department  ||--|{ Employee : 1-to-many >
+Employee  ||--|{ Address : 1-to-many >
+
+Product  ||--|{ Warehouse : 1-to-many >
+Warehouse  ||--|{ Product : 1-to-many >
+Product  ||--|{ Review : 1-to-many >
+
+Supplier }|--o{ Product : many-to-many 
+@enduml

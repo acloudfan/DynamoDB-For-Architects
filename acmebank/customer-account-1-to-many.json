@@ -1,0 +1,344 @@
+{
+  "ModelName": "customer-account-1-to-many",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Dec 26, 2022, 04:34 PM",
+    "DateLastModified": "Dec 29, 2022, 09:29 AM",
+    "Description": "part of a course",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "cust-account-duplicated-attributes",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "lname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "fname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "customer_number",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_balance",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "acct_type",
+          "AttributeType": "S"
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "CUST#101"
+          },
+          "lname": {
+            "S": "john"
+          },
+          "fname": {
+            "S": "doe"
+          }
+        },
+        {
+          "PK": {
+            "S": "ACCT#501"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "lname": {
+            "S": "john"
+          },
+          "fname": {
+            "S": "doe"
+          },
+          "customer_number": {
+            "S": "CUST#101"
+          },
+          "acct_balance": {
+            "N": "543"
+          },
+          "acct_type": {
+            "S": "checking"
+          }
+        },
+        {
+          "PK": {
+            "S": "ACCT#515"
+          },
+          "SK": {
+            "S": "ACCT#515"
+          },
+          "lname": {
+            "S": "john"
+          },
+          "fname": {
+            "S": "doe"
+          },
+          "customer_number": {
+            "S": "CUST#101"
+          },
+          "acct_balance": {
+            "N": "1000"
+          },
+          "acct_type": {
+            "S": "saving"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    },
+    {
+      "TableName": "cust-account-complex",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "lname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "fname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "accounts",
+          "AttributeType": "L"
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "CUST#101"
+          },
+          "lname": {
+            "S": "john"
+          },
+          "fname": {
+            "S": "doe"
+          },
+          "accounts": {
+            "L": [
+              {
+                "AccountNumber": {
+                  "S": "501"
+                },
+                "AccountBalance": {
+                  "N": "543"
+                },
+                "AccountType": {
+                  "S": "checking"
+                }
+              },
+              {
+                "AccountNumber": {
+                  "S": "515"
+                },
+                "AccountBalance": {
+                  "N": "1000"
+                },
+                "AccountType": {
+                  "S": "saving"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    },
+    {
+      "TableName": "cust-account-embedded",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "lname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "fname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_type",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_balance",
+          "AttributeType": "N"
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "CUST#101"
+          },
+          "lname": {
+            "S": "john"
+          },
+          "fname": {
+            "S": "does"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "acct_type": {
+            "S": "checking"
+          },
+          "acct_balance": {
+            "N": "543"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "ACCT#515"
+          },
+          "acct_type": {
+            "S": "saving"
+          },
+          "acct_balance": {
+            "N": "1000"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}

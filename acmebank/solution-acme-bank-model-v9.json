@@ -1,0 +1,987 @@
+{
+  "ModelName": "acme-bank-model-v9",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Dec 23, 2022, 12:59 PM",
+    "DateLastModified": "Jan 02, 2023, 04:29 PM",
+    "Description": "This is part of the course \"NoSQL for Architects & Developers\"",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "acme-bank-v9",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "fname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "lname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "phone",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_type",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_balance",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "txn_date",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "txn_amount",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "txn_balance",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "txn_type",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "txn_status",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "txn_declined_reason",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "special_status",
+          "AttributeType": "SS"
+        },
+        {
+          "AttributeName": "special_status_indicator",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "GSI1_PK",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "GSI1_SK",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "offer_details",
+          "AttributeType": "M"
+        },
+        {
+          "AttributeName": "offer_expires",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "customer_offer_summary",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "customer_offer_sent",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "customer_offer_media",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "customer_offer_status",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "customer_state",
+          "AttributeType": "S"
+        }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "GSI_Inverted",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "SK",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "PK",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "ALL"
+          }
+        },
+        {
+          "IndexName": "GSI_Sparse_Customer_Special_Status",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "PK",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "special_status_indicator",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "INCLUDE",
+            "NonKeyAttributes": [
+              "special_status"
+            ]
+          }
+        },
+        {
+          "IndexName": "GSI_Sparse_TXN_Declined",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "txn_declined_reason",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "txn_date",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "ALL"
+          }
+        },
+        {
+          "IndexName": "GSI1_PK_SK",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "GSI1_PK",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "GSI1_SK",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "ALL"
+          }
+        },
+        {
+          "IndexName": "GSI_Customer_State",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "customer_state",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "PK",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "ALL"
+          }
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "CUST#101"
+          },
+          "fname": {
+            "S": "john"
+          },
+          "lname": {
+            "S": "doe"
+          },
+          "phone": {
+            "S": "555-555-5555"
+          },
+          "special_status": {
+            "SS": [
+              "veteran",
+              "student"
+            ]
+          },
+          "special_status_indicator": {
+            "S": "yes"
+          },
+          "GSI1_PK": {
+            "S": "555-555-5555"
+          },
+          "GSI1_SK": {
+            "S": "CUST#101"
+          },
+          "customer_state": {
+            "S": "NJ_1"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#102"
+          },
+          "SK": {
+            "S": "CUST#102"
+          },
+          "fname": {
+            "S": "jane"
+          },
+          "lname": {
+            "S": "doe"
+          },
+          "phone": {
+            "S": "555-555-5566"
+          },
+          "GSI1_PK": {
+            "S": "555-555-5566"
+          },
+          "GSI1_SK": {
+            "S": "CUST#102"
+          },
+          "customer_state": {
+            "S": "MD_1"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "acct_type": {
+            "S": "checking"
+          },
+          "acct_balance": {
+            "N": "534"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "ACCT#672"
+          },
+          "acct_type": {
+            "S": "saving"
+          },
+          "acct_balance": {
+            "N": "100"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#102"
+          },
+          "SK": {
+            "S": "ACCT#510"
+          },
+          "acct_type": {
+            "S": "checking"
+          },
+          "acct_balance": {
+            "N": "1000"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1001"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "txn_date": {
+            "S": "2022/01/03"
+          },
+          "txn_amount": {
+            "N": "1000"
+          },
+          "txn_balance": {
+            "N": "1000"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/01/03"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#501"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1002"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "txn_date": {
+            "S": "2022/06/19"
+          },
+          "txn_amount": {
+            "N": "-5000"
+          },
+          "txn_balance": {
+            "N": "1000"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "declined"
+          },
+          "txn_declined_reason": {
+            "S": "low_balance"
+          },
+          "GSI1_PK": {
+            "S": "2022/06/19"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#501"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1003"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "txn_date": {
+            "S": "2022/06/19"
+          },
+          "txn_amount": {
+            "N": "-500"
+          },
+          "txn_balance": {
+            "N": "500"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/06/19"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#501"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1004"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "txn_date": {
+            "S": "2022/07/19"
+          },
+          "txn_amount": {
+            "N": "-466"
+          },
+          "txn_balance": {
+            "N": "34"
+          },
+          "txn_type": {
+            "S": "atm"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/07/19"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#501"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1005"
+          },
+          "SK": {
+            "S": "ACCT#510"
+          },
+          "txn_date": {
+            "S": "2021/07/02"
+          },
+          "txn_amount": {
+            "N": "100"
+          },
+          "txn_balance": {
+            "N": "100"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/07/19"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#510"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1006"
+          },
+          "SK": {
+            "S": "ACCT#510"
+          },
+          "txn_date": {
+            "S": "2021/07/03"
+          },
+          "txn_amount": {
+            "N": "224"
+          },
+          "txn_balance": {
+            "N": "324"
+          },
+          "txn_type": {
+            "S": "check"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2021/07/02"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#510"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1007"
+          },
+          "SK": {
+            "S": "ACCT#510"
+          },
+          "txn_date": {
+            "S": "2021/09/06"
+          },
+          "txn_amount": {
+            "N": "-24"
+          },
+          "txn_balance": {
+            "N": "300"
+          },
+          "txn_type": {
+            "S": "atm"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2021/07/03"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#510"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1008"
+          },
+          "SK": {
+            "S": "ACCT#510"
+          },
+          "txn_date": {
+            "S": "2022/09/02"
+          },
+          "txn_amount": {
+            "N": "700"
+          },
+          "txn_balance": {
+            "N": "1000"
+          },
+          "txn_type": {
+            "S": "check"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2021/09/06"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#510"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1009"
+          },
+          "SK": {
+            "S": "ACCT#672"
+          },
+          "txn_date": {
+            "S": "2022/07/03"
+          },
+          "txn_amount": {
+            "N": "152"
+          },
+          "txn_balance": {
+            "N": "152"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/09/02"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#672"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1010"
+          },
+          "SK": {
+            "S": "ACCT#672"
+          },
+          "txn_date": {
+            "S": "2022/10/12"
+          },
+          "txn_amount": {
+            "N": "-52"
+          },
+          "txn_balance": {
+            "N": "100"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/07/02"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#672"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1011"
+          },
+          "SK": {
+            "S": "ACCT#672"
+          },
+          "txn_date": {
+            "S": "2022/11/19"
+          },
+          "txn_amount": {
+            "N": "-231"
+          },
+          "txn_balance": {
+            "N": "500"
+          },
+          "txn_type": {
+            "S": "check"
+          },
+          "txn_status": {
+            "S": "declined"
+          },
+          "txn_declined_reason": {
+            "S": "check_illegible"
+          },
+          "GSI1_PK": {
+            "S": "2022/10/12"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#672"
+          }
+        },
+        {
+          "PK": {
+            "S": "OFFER#20220821#1"
+          },
+          "SK": {
+            "S": "OFFER#20220821#1"
+          },
+          "offer_details": {
+            "M": {}
+          },
+          "offer_expires": {
+            "S": "2022/09/21"
+          },
+          "customer_offer_summary": {
+            "S": "Loan upto $10K"
+          }
+        },
+        {
+          "PK": {
+            "S": "OFFER#20220905#1"
+          },
+          "SK": {
+            "S": "OFFER#20220905#1"
+          },
+          "offer_details": {
+            "M": {}
+          },
+          "offer_expires": {
+            "S": "2022/10/05"
+          },
+          "customer_offer_summary": {
+            "S": "No annual fee credit card"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "OFFER#20220821#1"
+          },
+          "offer_expires": {
+            "S": "2022/09/21"
+          },
+          "customer_offer_summary": {
+            "S": "Loan upto $10K"
+          },
+          "customer_offer_sent": {
+            "S": "2022/08/25"
+          },
+          "customer_offer_media": {
+            "S": "email"
+          },
+          "customer_offer_status": {
+            "S": "PENDING"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#102"
+          },
+          "SK": {
+            "S": "OFFER#20220821#1"
+          },
+          "offer_expires": {
+            "S": "2022/09/21"
+          },
+          "customer_offer_summary": {
+            "S": "Loan upto $10K"
+          },
+          "customer_offer_sent": {
+            "S": "2022/08/25"
+          },
+          "customer_offer_media": {
+            "S": "usps"
+          },
+          "customer_offer_status": {
+            "S": "ACCEPTED"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#102"
+          },
+          "SK": {
+            "S": "OFFER#20220905#1"
+          },
+          "offer_expires": {
+            "S": "2022/10/05"
+          },
+          "customer_offer_summary": {
+            "S": "No annual fee credit card"
+          },
+          "customer_offer_sent": {
+            "S": "2022/09/13"
+          },
+          "customer_offer_media": {
+            "S": "sms"
+          },
+          "customer_offer_status": {
+            "S": "REJECTED"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#103"
+          },
+          "SK": {
+            "S": "OFFER#20220905#1"
+          },
+          "offer_expires": {
+            "S": "2022/10/05"
+          },
+          "customer_offer_summary": {
+            "S": "No annual fee credit card"
+          },
+          "customer_offer_sent": {
+            "S": "2022/09/14"
+          },
+          "customer_offer_media": {
+            "S": "email"
+          },
+          "customer_offer_status": {
+            "S": "REJECTED"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#143"
+          },
+          "SK": {
+            "S": "CUST#143"
+          },
+          "fname": {
+            "S": "javed"
+          },
+          "lname": {
+            "S": "shah"
+          },
+          "phone": {
+            "S": "555-555-9638"
+          },
+          "customer_state": {
+            "S": "NJ_1"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#149"
+          },
+          "SK": {
+            "S": "CUST#149"
+          },
+          "fname": {
+            "S": "jackie"
+          },
+          "lname": {
+            "S": "smith"
+          },
+          "phone": {
+            "S": "555-556-1902"
+          },
+          "customer_state": {
+            "S": "NJ_2"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#153"
+          },
+          "SK": {
+            "S": "CUST#153"
+          },
+          "fname": {
+            "S": "jhilching"
+          },
+          "lname": {
+            "S": "cohan"
+          },
+          "phone": {
+            "S": "555-525-1991"
+          },
+          "customer_state": {
+            "S": "NJ_3"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#154"
+          },
+          "SK": {
+            "S": "CUST#154"
+          },
+          "fname": {
+            "S": "bianca"
+          },
+          "lname": {
+            "S": "loorie"
+          },
+          "phone": {
+            "S": "555-525-1992"
+          },
+          "customer_state": {
+            "S": "NJ_4"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#155"
+          },
+          "SK": {
+            "S": "CUST#155"
+          },
+          "fname": {
+            "S": "chanchal"
+          },
+          "lname": {
+            "S": "champion"
+          },
+          "phone": {
+            "S": "555-525-1993"
+          },
+          "customer_state": {
+            "S": "NJ_5"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#156"
+          },
+          "SK": {
+            "S": "CUST#156"
+          },
+          "fname": {
+            "S": "garry"
+          },
+          "lname": {
+            "S": "amok"
+          },
+          "phone": {
+            "S": "555-525-1994"
+          },
+          "customer_state": {
+            "S": "MD_1"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#157"
+          },
+          "SK": {
+            "S": "CUST#157"
+          },
+          "fname": {
+            "S": "johnas"
+          },
+          "lname": {
+            "S": "bros"
+          },
+          "phone": {
+            "S": "555-525-1995"
+          },
+          "customer_state": {
+            "S": "MD_2"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#158"
+          },
+          "SK": {
+            "S": "CUST#158"
+          },
+          "fname": {
+            "S": "tamalli"
+          },
+          "lname": {
+            "S": "singh"
+          },
+          "phone": {
+            "S": "555-525-1996"
+          },
+          "customer_state": {
+            "S": "MD_3"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#159"
+          },
+          "SK": {
+            "S": "CUST#159"
+          },
+          "fname": {
+            "S": "muhammad"
+          },
+          "lname": {
+            "S": "hussain"
+          },
+          "phone": {
+            "S": "555-525-1997"
+          },
+          "customer_state": {
+            "S": "MD_4"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#160"
+          },
+          "SK": {
+            "S": "CUST#160"
+          },
+          "fname": {
+            "S": "kital"
+          },
+          "lname": {
+            "S": "patel"
+          },
+          "phone": {
+            "S": "555-525-1998"
+          },
+          "customer_state": {
+            "S": "MD_5"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}

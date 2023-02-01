@@ -1,0 +1,28 @@
+@startuml
+
+skinparam backgroundColor transparent
+
+
+entity Customer {
+    * customer_number  <<PK>>
+}
+
+' entity Account {
+'     * account_number  <<PK>>
+' }
+
+' entity Transaction {
+'     * transaction_id  <<PK>>
+' }
+
+entity Offer {
+    * offer_id  <<PK>>
+}
+
+' Customer ||--|{ Account : 1-to-many >
+' Account  ||--|{ Transaction : 1-to-many >
+Offer  ||--O{ Customer : 1-to-many >
+Customer  ||--O{ Offer : 1-to-many >
+
+
+@enduml

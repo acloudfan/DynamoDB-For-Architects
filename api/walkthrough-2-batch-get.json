@@ -1,0 +1,17 @@
+{
+    "Employee": {
+        "Keys": [
+            {
+                "LoginAlias": {
+                    "S": "rajs"
+                }
+            },
+            {
+                "LoginAlias": {
+                    "S": "johns"
+                }
+            }
+        ],
+        "ProjectionExpression": "FirstName,LastName"
+    }
+}

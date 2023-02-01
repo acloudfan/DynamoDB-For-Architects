@@ -1,0 +1,4 @@
+PK,SK,acct_type,acct_balance,fname,lname,phone
+CUST#101,ACCT#501,checking,534,,,
+CUST#101,ACCT#672,saving,100,,,
+CUST#102,ACCT#510,checking,1000,,,

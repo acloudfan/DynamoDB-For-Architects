@@ -1,0 +1,11 @@
+PK,SK,GSI1_PK,GSI1_SK,details,fname,lname,customer_state,phone,details,txn_date,txn_amount,txn_balance,txn_type,txn_status,txn_declined_reason,acct_type,acct_balance,special_status,special_status_indicator,offer_details,customer_offer_summary,offer_expires,customer_offer_sent,customer_offer_status,customer_offer_media
+CUST#143,CUST#143,,,{},javed,shah,NJ_1,555-555-9638,,,,,,,,,,,,,,,,,
+CUST#149,CUST#149,,,{},jackie,smith,NJ_2,555-556-1902,,,,,,,,,,,,,,,,,
+CUST#153,CUST#153,,,{},jhilching,cohan,NJ_3,555-525-1991,,,,,,,,,,,,,,,,,
+CUST#154,CUST#154,,,{},bianca,loorie,NJ_4,555-525-1992,,,,,,,,,,,,,,,,,
+CUST#155,CUST#155,,,{},chanchal,champion,NJ_5,555-525-1993,,,,,,,,,,,,,,,,,
+CUST#156,CUST#156,,,{},garry,amok,MD_1,555-525-1994,,,,,,,,,,,,,,,,,
+CUST#157,CUST#157,,,{},johnas,bros,MD_2,555-525-1995,,,,,,,,,,,,,,,,,
+CUST#158,CUST#158,,,{},tamalli,singh,MD_3,555-525-1996,,,,,,,,,,,,,,,,,
+CUST#159,CUST#159,,,{},muhammad,hussain,MD_4,555-525-1997,,,,,,,,,,,,,,,,,
+CUST#160,CUST#160,,,{},kital,patel,MD_5,555-525-1998,,,,,,,,,,,,,,,,,

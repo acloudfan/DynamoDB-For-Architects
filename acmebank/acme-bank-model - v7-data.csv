@@ -1,0 +1,12 @@
+GSI1_PK,GSI1_SK,PK,SK,txn_date,txn_amount,txn_balance,txn_type,txn_status,txn_declined_reason,acct_type,acct_balance,fname,lname,phone,special_status,special_status_indicator
+2022/01/03,ACCT#501,TXN#1001,ACCT#501,2022/01/03,1000,1000,cash,approved,,,,,,,,
+2022/06/19,ACCT#501,TXN#1002,ACCT#501,2022/06/19,-5000,1000,cash,declined,low_balance,,,,,,,
+2022/06/19,ACCT#501,TXN#1003,ACCT#501,2022/06/19,-500,500,cash,approved,,,,,,,,
+2022/07/19,ACCT#501,TXN#1004,ACCT#501,2022/07/19,-466,34,atm,approved,,,,,,,,
+2022/07/19,ACCT#510,TXN#1005,ACCT#510,2021/07/02,100,100,cash,approved,,,,,,,,
+2021/07/02,ACCT#510,TXN#1006,ACCT#510,2021/07/03,224,324,check,approved,,,,,,,,
+2021/07/03,ACCT#510,TXN#1007,ACCT#510,2021/09/06,-24,300,atm,approved,,,,,,,,
+2021/09/06,ACCT#510,TXN#1008,ACCT#510,2022/09/02,700,1000,check,approved,,,,,,,,
+2022/09/02,ACCT#672,TXN#1009,ACCT#672,2022/07/03,152,152,cash,approved,,,,,,,,
+2022/07/02,ACCT#672,TXN#1010,ACCT#672,2022/10/12,-52,100,cash,approved,,,,,,,,
+2022/10/12,ACCT#672,TXN#1011,ACCT#672,2022/11/19,-231,500,check,declined,check_illegible,,,,,,,

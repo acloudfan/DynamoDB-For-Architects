@@ -1,0 +1,19 @@
+@startuml
+
+skinparam backgroundColor transparent
+
+
+entity Customer {
+    * Customer  <<PK>>
+}
+
+entity Order {
+    * OrderId  <<PK>>
+    * OrderDate
+}
+
+
+
+Customer ||--|{ Order : 1-to-many >
+
+@enduml

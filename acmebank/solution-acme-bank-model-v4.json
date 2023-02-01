@@ -1,0 +1,174 @@
+{
+  "ModelName": "acme-bank-model-v4",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Dec 23, 2022, 12:59 PM",
+    "DateLastModified": "Dec 30, 2022, 06:23 AM",
+    "Description": "This is part of the course \"NoSQL for Architects & Developers\"",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "acme-bank-v4",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "fname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "lname",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "phone",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_type",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "acct_balance",
+          "AttributeType": "N"
+        }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "GSI_Inverted",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "SK",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "PK",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "ALL"
+          }
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "CUST#101"
+          },
+          "fname": {
+            "S": "john"
+          },
+          "lname": {
+            "S": "doe"
+          },
+          "phone": {
+            "S": "555-555-5555"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#102"
+          },
+          "SK": {
+            "S": "CUST#102"
+          },
+          "fname": {
+            "S": "jane"
+          },
+          "lname": {
+            "S": "doe"
+          },
+          "phone": {
+            "S": "555-555-5566"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "acct_type": {
+            "S": "checking"
+          },
+          "acct_balance": {
+            "N": "534"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#101"
+          },
+          "SK": {
+            "S": "ACCT#672"
+          },
+          "acct_type": {
+            "S": "saving"
+          },
+          "acct_balance": {
+            "N": "100"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#102"
+          },
+          "SK": {
+            "S": "ACCT#510"
+          },
+          "acct_type": {
+            "S": "checking"
+          },
+          "acct_balance": {
+            "N": "1000"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}
