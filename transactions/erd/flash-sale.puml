@@ -1,0 +1,22 @@
+@startuml
+
+skinparam backgroundColor transparent
+
+entity Discount {
+    * DiscountId  <<PK>>
+    * CountLeft
+}
+
+entity LoyaltyDiscount {
+    * LoyaltyDiscountId  <<PK>>
+    * MinimumLoyaltyPoints
+}
+
+entity Customer {
+    * CustomerId  <<PK>>
+    * LoyaltyPoints
+}
+
+
+
+@enduml

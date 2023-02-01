@@ -1,0 +1,177 @@
+{
+  "ModelName": "Flash-Sale-Discounts-Model",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Feb 01, 2023, 05:46 AM",
+    "DateLastModified": "Feb 01, 2023, 06:04 AM",
+    "Description": "This is part of a course \"DynamoDB for Architects\"",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "FlashSaleDiscounts",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "CountLeft",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "LoyaltyPoints",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "DiscountMinimumLoyaltyPoints",
+          "AttributeType": "N"
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "DISCOUNT#100"
+          },
+          "SK": {
+            "S": "DISCOUNT#100"
+          },
+          "CountLeft": {
+            "N": "10"
+          }
+        },
+        {
+          "PK": {
+            "S": "DISCOUNT#101"
+          },
+          "SK": {
+            "S": "DISCOUNT#101"
+          },
+          "CountLeft": {
+            "N": "20"
+          }
+        },
+        {
+          "PK": {
+            "S": "DISCOUNT#102"
+          },
+          "SK": {
+            "S": "DISCOUNT#102"
+          },
+          "CountLeft": {
+            "N": "10"
+          }
+        },
+        {
+          "PK": {
+            "S": "LOYALTY#5000"
+          },
+          "SK": {
+            "S": "LOYALTY#5000"
+          },
+          "CountLeft": {
+            "N": "5"
+          },
+          "DiscountMinimumLoyaltyPoints": {
+            "N": "5000"
+          }
+        },
+        {
+          "PK": {
+            "S": "LOYALTY#10000"
+          },
+          "SK": {
+            "S": "LOYALTY#10000"
+          },
+          "CountLeft": {
+            "N": "5"
+          },
+          "DiscountMinimumLoyaltyPoints": {
+            "N": "10000"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#john"
+          },
+          "SK": {
+            "S": "CUST#john"
+          },
+          "LoyaltyPoints": {
+            "N": "1000"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#anil"
+          },
+          "SK": {
+            "S": "CUST#anil"
+          },
+          "LoyaltyPoints": {
+            "N": "5001"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#jenna"
+          },
+          "SK": {
+            "S": "CUST#jenna"
+          },
+          "LoyaltyPoints": {
+            "N": "19232"
+          }
+        },
+        {
+          "PK": {
+            "S": "CUST#paul"
+          },
+          "SK": {
+            "S": "CUST#paul"
+          },
+          "LoyaltyPoints": {
+            "N": "131"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}
