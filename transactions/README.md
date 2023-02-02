@@ -197,13 +197,13 @@ aws dynamodb transact-write-items  \
     ]'   \
     --endpoint-url http://localhost:8000
 
---------------------------------------
-TransactWriteItems support Idempotency
---------------------------------------
+---------------------------------------
+TransactWriteItems supports Idempotency
+---------------------------------------
 
 Business logic
 --------------
-1. Increase the points by certain number
+1. Increase the Loyalty points for a customer by certain number
 2. Failure of operation should not lead to multiple applies
 
 Run test
@@ -224,7 +224,7 @@ aws dynamodb get-item --table-name FlashSaleDiscounts \
 - You may run this command multiple times *BUT* the points will be incremented ONLY once
 
 aws dynamodb transact-write-items  \
-    --client-request-token  1234567890,  \
+    --client-request-token  12345,  \
     --transact-items '[
         { 
             "Update": {
@@ -241,7 +241,11 @@ aws dynamodb transact-write-items  \
     ]'   \
     --endpoint-url http://localhost:8000
 
-3. Change the loyalty point from 500 to let's say 1500 & try out the command again
+4. Check the balance of Loyalty points for CUST#john
+
+5. Repeat steps 3 & 4 - is the Loyalty point balance changing with subsequent calls?
+
+6. (Optional) In the command, change the loyalty point from 500 to let's say 1500 & try out the command again
    What was the result?
 
 ####################
