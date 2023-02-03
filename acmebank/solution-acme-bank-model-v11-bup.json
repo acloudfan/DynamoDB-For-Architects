@@ -3,7 +3,7 @@
   "ModelMetadata": {
     "Author": "raj@acloudfan.com",
     "DateCreated": "Dec 23, 2022, 12:59 PM",
-    "DateLastModified": "Feb 03, 2023, 10:47 AM",
+    "DateLastModified": "Feb 03, 2023, 10:16 AM",
     "Description": "This is part of the course \"NoSQL for Architects & Developers\"",
     "AWSService": "Amazon DynamoDB",
     "Version": "3.0"
@@ -292,7 +292,7 @@
             "N": "534"
           },
           "acct_last_txn": {
-            "N": "1002"
+            "N": "1004"
           }
         },
         {
@@ -309,7 +309,7 @@
             "N": "100"
           },
           "acct_last_txn": {
-            "N": "1002"
+            "N": "1003"
           }
         },
         {
@@ -331,7 +331,7 @@
         },
         {
           "PK": {
-            "S": "TXN#501#1001"
+            "S": "TXN#1001"
           },
           "SK": {
             "S": "ACCT#501"
@@ -360,7 +360,7 @@
         },
         {
           "PK": {
-            "S": "TXN#501#1002"
+            "S": "TXN#1002"
           },
           "SK": {
             "S": "ACCT#501"
@@ -392,7 +392,65 @@
         },
         {
           "PK": {
-            "S": "TXN#510#1001"
+            "S": "TXN#1003"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "txn_date": {
+            "S": "2022/06/19"
+          },
+          "txn_amount": {
+            "N": "-500"
+          },
+          "txn_balance": {
+            "N": "500"
+          },
+          "txn_type": {
+            "S": "cash"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/06/19"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#501"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1004"
+          },
+          "SK": {
+            "S": "ACCT#501"
+          },
+          "txn_date": {
+            "S": "2022/07/19"
+          },
+          "txn_amount": {
+            "N": "-466"
+          },
+          "txn_balance": {
+            "N": "34"
+          },
+          "txn_type": {
+            "S": "atm"
+          },
+          "txn_status": {
+            "S": "approved"
+          },
+          "GSI1_PK": {
+            "S": "2022/07/19"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#501"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1001"
           },
           "SK": {
             "S": "ACCT#510"
@@ -421,7 +479,7 @@
         },
         {
           "PK": {
-            "S": "TXN#510#1002"
+            "S": "TXN#1002"
           },
           "SK": {
             "S": "ACCT#510"
@@ -450,7 +508,7 @@
         },
         {
           "PK": {
-            "S": "TXN#510#1003"
+            "S": "TXN#1003"
           },
           "SK": {
             "S": "ACCT#510"
@@ -479,7 +537,7 @@
         },
         {
           "PK": {
-            "S": "TXN#510#1004"
+            "S": "TXN#1004"
           },
           "SK": {
             "S": "ACCT#510"
@@ -508,7 +566,7 @@
         },
         {
           "PK": {
-            "S": "TXN#672#1001"
+            "S": "TXN#1001"
           },
           "SK": {
             "S": "ACCT#672"
@@ -537,7 +595,7 @@
         },
         {
           "PK": {
-            "S": "TXN#672#1002"
+            "S": "TXN#1002"
           },
           "SK": {
             "S": "ACCT#672"
@@ -559,6 +617,38 @@
           },
           "GSI1_PK": {
             "S": "2022/07/02"
+          },
+          "GSI1_SK": {
+            "S": "ACCT#672"
+          }
+        },
+        {
+          "PK": {
+            "S": "TXN#1003"
+          },
+          "SK": {
+            "S": "ACCT#672"
+          },
+          "txn_date": {
+            "S": "2022/11/19"
+          },
+          "txn_amount": {
+            "N": "-231"
+          },
+          "txn_balance": {
+            "N": "500"
+          },
+          "txn_type": {
+            "S": "check"
+          },
+          "txn_status": {
+            "S": "declined"
+          },
+          "txn_declined_reason": {
+            "S": "check_illegible"
+          },
+          "GSI1_PK": {
+            "S": "2022/10/12"
           },
           "GSI1_SK": {
             "S": "ACCT#672"

@@ -12,7 +12,7 @@ ACCT_NUMBER="ACCT#501"
 
 # Change these to add transaction with 
 # A positive amount is a Credit and negative amount is Debit
-TXN_AMOUNT="-100"
+TXN_AMOUNT="-134"
 TXN_DATE="2023/01/01"
 TXN_TYPE="atm"
 
@@ -92,7 +92,7 @@ def create_credit_transact_write_items_input(cust_number, acct_number,last_accou
                 "Update": {
                     "TableName": TABLE_NAME,
                     "Key": {
-                        "PK": {"S":"TXN#"+latest_txn_number}, 
+                        "PK": {"S":"TXN#"+acct_number.replace("ACCT#","")+"#"+latest_txn_number},
                         "SK": {"S":acct_number}
                     },
                     "UpdateExpression": "SET #txn_amount = :txn_amount, #txn_date = :txn_date, #txn_type = :txn_type, #GSI1_PK = :GSI1_PK, #GSI1_SK = :GSI1_SK",
@@ -131,7 +131,7 @@ def create_debit_transact_write_items_input(cust_number, acct_number,last_accoun
                 "Update": {
                     "TableName": TABLE_NAME,
                     "Key": {
-                        "PK": {"S":"TXN#"+latest_txn_number}, 
+                        "PK": {"S":"TXN#"+acct_number.replace("ACCT#","")+"#"+latest_txn_number},
                         "SK": {"S":acct_number}
                     },
                     "UpdateExpression": "SET #txn_amount = :txn_amount, #txn_date = :txn_date, #txn_type = :txn_type, #GSI1_PK = :GSI1_PK, #GSI1_SK = :GSI1_SK",
