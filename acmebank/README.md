@@ -213,3 +213,111 @@ Setup Offer-Customer many-to-many relationship (8.2)
 # Iteration# 9 #
 ################
 
+
+#################
+# Iteration# 10 #
+#################
+
+
+#################
+# Iteration# 11 #
+#################
+
+1. Check condition that balance can cover the Debit
+   This condition is NOT needed for Credit
+
+2. Account balance is maintained in the item
+   (PK=CUST#, SK=ACCT#)
+
+3. Txn leads to an insertion of a unique txn
+   (PK=TXN#, SK=ACCT#)
+
+Processing steps:
+-----------------
+1. Get the CUST# for the ACCT#
+
+aws dynamodb query --table-name acme-bank-v10 \
+    --index-name  GSI_Inverted  \
+    --key-condition-expression "SK=:sk AND begins_with(PK,:cust)" \
+    --expression-attribute-values '{
+      ":sk": {"S": "ACCT#510"},
+      ":cust": {"S": "CUST#"}
+    }' \
+    --projection-expression "PK,acct_balance" \
+    --endpoint-url  http://localhost:8000
+
+Result: CUST#102
+
+2. Transaction for a credit action (deposit $50)
+This transaction does not require the balance to be checked
+
+* Add a condition to ensure that Update does not create a CUST#/ACC# !!!
+aws dynamodb transact-write-items \
+    --transact-items '[
+      {
+         "Update": {
+            "TableName": "acme-bank-v10",
+            "Key": {
+                  "PK": {"S":"CUST#102"}, 
+                  "SK": {"S":"ACCT#510"}
+            },
+            "ConditionExpression": "attribute_exists(#sk)",
+            "UpdateExpression": "SET #balance = #balance + :txn_amount",
+            "ExpressionAttributeNames": {"#sk": "SK", "#balance":"acct_balance"},
+            "ExpressionAttributeValues": {":txn_amount": {"N":"50"}}
+         },
+         "Put" : {
+            "TableName": "acme-bank-v10",
+            "Item": {
+                  "PK": {"S":"TXN#1009"}, 
+                  "SK": {"S":"ACCT#510"},
+                  "txn_date": {"S": "2023/01/01"},
+                  "txn_type": {"S": "atm"},
+                  "txn_amount": {"N": "50"},
+                  "GSI1_PK": {"S": "2023/01/01"},
+                  "GSI1_SK": {"S":"ACCT#510"}
+            },
+            "ConditionExpression": "attribute_not_exists(#pk)",
+            "ExpressionAttributeNames": {"#pk":"PK"}
+         }
+      }
+      ]' \
+    --endpoint-url http://localhost:8000
+
+3. Transaction for a debit action (withdraw $50)
+
+V1-PUT
+=======
+
+
+* Set the CUST# and acct_balance in this call otherwise condition expression will fail
+
+aws dynamodb transact-write-items \
+    --transact-items '[
+      {
+         "Update": {
+            "TableName": "acme-bank-v10",
+            "Key": {
+                  "PK": {"S":"CUST#102"}, 
+                  "SK": {"S":"ACCT#510"}
+            },
+            "UpdateExpression": "SET #balance = #balance + :txn_amount",
+            "ConditionExpression": "attribute_exists(#sk) AND #balance = :current_balance",
+            "ExpressionAttributeNames": {"#sk": "SK", "#balance":"acct_balance"},
+            "ExpressionAttributeValues": {":txn_amount": {"N":"50"}, ":current_balance":{"N":"1150"}}
+         },
+         "Update" : {
+            "TableName": "acme-bank-v10",
+            "Key": {
+                  "PK": {"S":"TXN#1009"}, 
+                  "SK": {"S":"ACCT#510"}
+            },
+            "UpdateExpression": "SET #txn_amount = :txn_amount, #txn_date = :txn_date, #txn_type = :txn_type, #GSI1_PK = :GSI1_PK, #GSI1_SK = :GSI1_SK",
+            "ConditionExpression": "attribute_not_exists(#pk) AND attribute_not_exists(#sk)",
+            "ExpressionAttributeNames": {"#pk":"PK", "#sk":"SK", "#txn_amount":"txn_amount","#txn_date":"txn_date","#txn_type":"txn_type","#GSI1_PK":"GSI1_PK","#GSI1_SK":"GSI1_SK"},
+            "ExpressionAttributeValues": {":txn_amount":{"N":"50"}, ":txn_date":{"S":"2023/01/01"}, ":txn_type":{"S":"atm"},":GSI1_PK": {"S": "2023/01/01"}, ":GSI1_SK": {"S":"ACCT#510"}}
+         }
+      }
+      ]' \
+    --endpoint-url http://localhost:8000
+
