@@ -5,13 +5,11 @@ from botocore.exceptions import ClientError
 
 TABLE_NAME="acme-bank-v11"
 
-# Get information for the account
-# For further processing we need (LAST_ACCT_TXN_NUMBER, ACCT_BALANCE)
 CUST_NUMBER="CUST#102"
 ACCT_NUMBER="ACCT#510"
-
-# Change these to add transaction with 
-TXN_AMOUNT="50"
+TXN_NUMBER="TXN#1012"
+TXN_AMOUNT="22"
+CURRENT_ACCOUNT_BALANCE="1350"
 TXN_DATE="2023/01/01"
 TXN_TYPE="atm"
 
@@ -41,59 +39,35 @@ def create_dynamodb_client(region="localhost"):
 # def create_dynamodb_client(region="us-east-1"):
 #     return boto3.client("dynamodb", region_name=region)
 
-# Create expression for the query
-def create_account_query_input(cust, account):
-    return {
-        "TableName": TABLE_NAME,
-        "KeyConditionExpression": "#PK = :cust_number And #SK = :account_number",
-        "ExpressionAttributeNames": {"#PK":"PK","#SK":"SK"},
-        "ExpressionAttributeValues": {":cust_number": {"S":"CUST#102"},":account_number": {"S":"ACCT#510"}}
-    }
-
-# Execute the query
-def execute_account_query(dynamodb_client, input):
-    try:
-        response = dynamodb_client.query(**input)
-        print("Account Query successful.")
-        return response
-        # Handle response
-    except ClientError as error:
-        handle_error(error)
-    except BaseException as error:
-        print("Unknown error while querying: " + error.response['Error']['Message'])
-
-
-
 # Operation#1 = Update account balance
 #               Upd
-#(LAST_ACCOUNT_TXN_NUMBER, LATEST_TXN_NUMBER,TXN_DATE,TXN_TYPE,TXN_AMOUNT )
-def create_transact_write_items_input(cust_number, acct_number,last_account_txn_number, latest_txn_number,txn_date,txn_type,txn_amount):
+def create_transact_write_items_input():
     return {
         "TransactItems": [
             {
                 "Update": {
                     "TableName": TABLE_NAME,
                     "Key": {
-                        "PK": {"S":cust_number}, 
-                        "SK": {"S":acct_number}
+                        "PK": {"S":CUST_NUMBER}, 
+                        "SK": {"S":ACCT_NUMBER}
                     },
-                    "UpdateExpression": "SET #acct_balance = #acct_balance + :txn_amount, #acct_last_txn=:latest_txn_number",
-                    "ConditionExpression": "attribute_exists(#sk) And #acct_last_txn = :acct_last_txn",
-                    "ExpressionAttributeNames": {"#acct_balance":"acct_balance","#sk":"SK","#acct_balance":"acct_balance","#acct_last_txn": "acct_last_txn"},
-                    "ExpressionAttributeValues": {":txn_amount": {"N":txn_amount},":acct_last_txn": {"N":last_account_txn_number},":latest_txn_number":{"N":latest_txn_number}}
+                    "UpdateExpression": "SET #acct_balance = #acct_balance + :txn_amount",
+                    "ConditionExpression": "attribute_exists(#sk) And #acct_balance = :current_balance",
+                    "ExpressionAttributeNames": {"#acct_balance":"acct_balance","#sk":"SK","#acct_balance":"acct_balance"},
+                    "ExpressionAttributeValues": {":txn_amount": {"N":TXN_AMOUNT},":current_balance": {"N":CURRENT_ACCOUNT_BALANCE}}
                 }
             },
             {
                 "Update": {
                     "TableName": TABLE_NAME,
                     "Key": {
-                        "PK": {"S":latest_txn_number}, 
-                        "SK": {"S":acct_number}
+                        "PK": {"S":TXN_NUMBER}, 
+                        "SK": {"S":ACCT_NUMBER}
                     },
                     "UpdateExpression": "SET #txn_amount = :txn_amount, #txn_date = :txn_date, #txn_type = :txn_type, #GSI1_PK = :GSI1_PK, #GSI1_SK = :GSI1_SK",
                     "ConditionExpression": "attribute_not_exists(#PK) And attribute_not_exists(#SK)",
                     "ExpressionAttributeNames": {"#txn_amount":"txn_amount","#txn_date":"txn_date","#txn_type":"txn_type","#GSI1_PK":"GSI1_PK","#GSI1_SK":"GSI1_SK","#PK":"PK","#SK":"SK"},
-                    "ExpressionAttributeValues": {":txn_amount": {"N":txn_amount},":txn_date": {"S":txn_date},":txn_type": {"S":txn_type},":GSI1_PK": {"S":txn_date},":GSI1_SK": {"S":acct_number}}
+                    "ExpressionAttributeValues": {":txn_amount": {"N":TXN_AMOUNT},":txn_date": {"S":TXN_DATE},":txn_type": {"S":TXN_TYPE},":GSI1_PK": {"S":TXN_DATE},":GSI1_SK": {"S":ACCT_NUMBER}}
                 }
             }
         ]
@@ -128,24 +102,12 @@ def main():
     # Create the DynamoDB Client with the region you want
     dynamodb_client = create_dynamodb_client()
 
-    # 1. Create the account query input
-    query_input = create_account_query_input(CUST_NUMBER, ACCT_NUMBER)
-    # 2. Run the query
-    account_info = execute_account_query(dynamodb_client, query_input)
-    # 3. Get the balance & last txn number
-    LAST_ACCOUNT_TXN_NUMBER=account_info['Items'][0]['acct_last_txn']['N']
-    ACCT_BALANCE=account_info['Items'][0]['acct_balance']['N']
-    print("Query Sucessful :   Acct Balance = {},  Last Txn Number = {}".format(ACCT_BALANCE,LAST_ACCOUNT_TXN_NUMBER))
-    
-    # 4. Next txn number
-    LATEST_TXN_NUMBER=int(LAST_ACCOUNT_TXN_NUMBER)+1
-
-    # 5. Create the dictionary containing arguments for transact_write_items call
-    transact_write_items_input = create_transact_write_items_input(CUST_NUMBER,ACCT_NUMBER,LAST_ACCOUNT_TXN_NUMBER, str(LATEST_TXN_NUMBER),TXN_DATE,TXN_TYPE,TXN_AMOUNT )
+    # Create the dictionary containing arguments for transact_write_items call
+    transact_write_items_input = create_transact_write_items_input()
 
     print(transact_write_items_input)
 
-    # 6. Call DynamoDB's transact_write_items API
+    # Call DynamoDB's transact_write_items API
     execute_transact_write_items(dynamodb_client, transact_write_items_input)
 
 
