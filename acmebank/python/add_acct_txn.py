@@ -7,11 +7,12 @@ TABLE_NAME="acme-bank-v11"
 
 # Get information for the account
 # For further processing we need (LAST_ACCT_TXN_NUMBER, ACCT_BALANCE)
-CUST_NUMBER="CUST#102"
-ACCT_NUMBER="ACCT#510"
+CUST_NUMBER="CUST#101"
+ACCT_NUMBER="ACCT#501"
 
 # Change these to add transaction with 
-TXN_AMOUNT="50"
+# A positive amount is a Credit and negative amount is Debit
+TXN_AMOUNT="-100"
 TXN_DATE="2023/01/01"
 TXN_TYPE="atm"
 
@@ -41,16 +42,16 @@ def create_dynamodb_client(region="localhost"):
 # def create_dynamodb_client(region="us-east-1"):
 #     return boto3.client("dynamodb", region_name=region)
 
-# Create expression for the query
-def create_account_query_input(cust, account):
+# 1. Create expression for the query
+def create_account_query_input(customer_number, account_number):
     return {
         "TableName": TABLE_NAME,
         "KeyConditionExpression": "#PK = :cust_number And #SK = :account_number",
         "ExpressionAttributeNames": {"#PK":"PK","#SK":"SK"},
-        "ExpressionAttributeValues": {":cust_number": {"S":"CUST#102"},":account_number": {"S":"ACCT#510"}}
+        "ExpressionAttributeValues": {":cust_number": {"S":customer_number},":account_number": {"S":account_number}}
     }
 
-# Execute the query
+# 2. Execute the query
 def execute_account_query(dynamodb_client, input):
     try:
         response = dynamodb_client.query(**input)
@@ -65,9 +66,13 @@ def execute_account_query(dynamodb_client, input):
 
 
 # Operation#1 = Update account balance
-#               Upd
-#(LAST_ACCOUNT_TXN_NUMBER, LATEST_TXN_NUMBER,TXN_DATE,TXN_TYPE,TXN_AMOUNT )
-def create_transact_write_items_input(cust_number, acct_number,last_account_txn_number, latest_txn_number,txn_date,txn_type,txn_amount):
+#               Check to make sure that CUST#/ACCT# item exists
+#               Check if the acct_last_txn matches with the one that is passed
+#               Update the acct_balance, acct_last_txn
+# Operation#2 = Add a txn item using Update
+#               (Optional) Check if the TXN already NOT exist
+#               Set the attributes for the transaction
+def create_credit_transact_write_items_input(cust_number, acct_number,last_account_txn_number, latest_txn_number,txn_date,txn_type,txn_amount):
     return {
         "TransactItems": [
             {
@@ -87,7 +92,7 @@ def create_transact_write_items_input(cust_number, acct_number,last_account_txn_
                 "Update": {
                     "TableName": TABLE_NAME,
                     "Key": {
-                        "PK": {"S":latest_txn_number}, 
+                        "PK": {"S":"TXN#"+latest_txn_number}, 
                         "SK": {"S":acct_number}
                     },
                     "UpdateExpression": "SET #txn_amount = :txn_amount, #txn_date = :txn_date, #txn_type = :txn_type, #GSI1_PK = :GSI1_PK, #GSI1_SK = :GSI1_SK",
@@ -99,7 +104,46 @@ def create_transact_write_items_input(cust_number, acct_number,last_account_txn_
         ]
     }
 
+# Same as create_credit_transact_write_items_input with 2 differences:
+#      1. In operation#1, Check the condition if acct_balance >= txn_amout
+#      2. In operation#1, Update SET #acc_balance = #acc_balance - :txn_amount
+def create_debit_transact_write_items_input(cust_number, acct_number,last_account_txn_number, latest_txn_number,txn_date,txn_type,txn_amount):
 
+    # Add a negative sign before transaction amout
+    debit_txn_amount="-"+txn_amount
+
+    return {
+        "TransactItems": [
+            {
+                "Update": {
+                    "TableName": TABLE_NAME,
+                    "Key": {
+                        "PK": {"S":cust_number}, 
+                        "SK": {"S":acct_number}
+                    },
+                    "UpdateExpression": "SET #acct_balance = #acct_balance - :txn_amount, #acct_last_txn=:latest_txn_number",
+                    "ConditionExpression": "attribute_exists(#sk) And #acct_last_txn = :acct_last_txn And #acct_balance >= :txn_amount",
+                    "ExpressionAttributeNames": {"#acct_balance":"acct_balance","#sk":"SK","#acct_balance":"acct_balance","#acct_last_txn": "acct_last_txn"},
+                    "ExpressionAttributeValues": {":txn_amount": {"N":txn_amount},":acct_last_txn": {"N":last_account_txn_number},":latest_txn_number":{"N":latest_txn_number}}
+                }
+            },
+            {
+                "Update": {
+                    "TableName": TABLE_NAME,
+                    "Key": {
+                        "PK": {"S":"TXN#"+latest_txn_number}, 
+                        "SK": {"S":acct_number}
+                    },
+                    "UpdateExpression": "SET #txn_amount = :txn_amount, #txn_date = :txn_date, #txn_type = :txn_type, #GSI1_PK = :GSI1_PK, #GSI1_SK = :GSI1_SK",
+                    "ConditionExpression": "attribute_not_exists(#PK) And attribute_not_exists(#SK)",
+                    "ExpressionAttributeNames": {"#txn_amount":"txn_amount","#txn_date":"txn_date","#txn_type":"txn_type","#GSI1_PK":"GSI1_PK","#GSI1_SK":"GSI1_SK","#PK":"PK","#SK":"SK"},
+                    "ExpressionAttributeValues": {":txn_amount": {"N":debit_txn_amount},":txn_date": {"S":txn_date},":txn_type": {"S":txn_type},":GSI1_PK": {"S":txn_date},":GSI1_SK": {"S":acct_number}}
+                }
+            }
+        ]
+    }
+
+# Execute the transaction
 def execute_transact_write_items(dynamodb_client, input):
     try:
         response = dynamodb_client.transact_write_items(**input)
@@ -135,15 +179,26 @@ def main():
     # 3. Get the balance & last txn number
     LAST_ACCOUNT_TXN_NUMBER=account_info['Items'][0]['acct_last_txn']['N']
     ACCT_BALANCE=account_info['Items'][0]['acct_balance']['N']
-    print("Query Sucessful :   Acct Balance = {},  Last Txn Number = {}".format(ACCT_BALANCE,LAST_ACCOUNT_TXN_NUMBER))
-    
+    print("Query Sucessful :   Acct Balance = {},  Last Acct Txn Number = {}".format(ACCT_BALANCE,LAST_ACCOUNT_TXN_NUMBER))
+
     # 4. Next txn number
     LATEST_TXN_NUMBER=int(LAST_ACCOUNT_TXN_NUMBER)+1
+    print("Next Txn Number : TXN#{}".format(LATEST_TXN_NUMBER))
+
+    # SIMULATE (Last txn number mismatch) failure, uncomment the line below
+    # LAST_ACCOUNT_TXN_NUMBER = str(int(LAST_ACCOUNT_TXN_NUMBER) - 1)
 
     # 5. Create the dictionary containing arguments for transact_write_items call
-    transact_write_items_input = create_transact_write_items_input(CUST_NUMBER,ACCT_NUMBER,LAST_ACCOUNT_TXN_NUMBER, str(LATEST_TXN_NUMBER),TXN_DATE,TXN_TYPE,TXN_AMOUNT )
+    txn_amount = int(TXN_AMOUNT)
+    if int(txn_amount) > 0:
+        transact_write_items_input = create_credit_transact_write_items_input(CUST_NUMBER,ACCT_NUMBER,LAST_ACCOUNT_TXN_NUMBER, str(LATEST_TXN_NUMBER),TXN_DATE,TXN_TYPE,TXN_AMOUNT )
+    else:
+        # Convert to positive number as we are updating the balance with expression "#acct_balance=#acct_balance - txn_amount"
+        txn_amount = abs(txn_amount)
+        transact_write_items_input = create_debit_transact_write_items_input(CUST_NUMBER,ACCT_NUMBER,LAST_ACCOUNT_TXN_NUMBER, str(LATEST_TXN_NUMBER),TXN_DATE,TXN_TYPE,str(txn_amount) )
 
-    print(transact_write_items_input)
+    # Uncomment to check the transact items
+    # print(transact_write_items_input)
 
     # 6. Call DynamoDB's transact_write_items API
     execute_transact_write_items(dynamodb_client, transact_write_items_input)
