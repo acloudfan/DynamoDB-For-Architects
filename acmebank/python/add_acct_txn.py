@@ -7,12 +7,14 @@ TABLE_NAME="acme-bank-v11"
 
 # Get information for the account
 # For further processing we need (LAST_ACCT_TXN_NUMBER, ACCT_BALANCE)
-CUST_NUMBER="CUST#101"
-ACCT_NUMBER="ACCT#501"
+# CUST_NUMBER="CUST#101"
+
+# Change the account number
+ACCT_NUMBER="ACCT#672"
 
 # Change these to add transaction with 
 # A positive amount is a Credit and negative amount is Debit
-TXN_AMOUNT="-134"
+TXN_AMOUNT="134"
 TXN_DATE="2023/01/01"
 TXN_TYPE="atm"
 
@@ -43,13 +45,13 @@ def create_dynamodb_client(region="localhost"):
 #     return boto3.client("dynamodb", region_name=region)
 
 # 1. Create expression for the query
-def create_account_query_input(customer_number, account_number):
+def create_account_query_input(account_number):
     return {
         "TableName": TABLE_NAME,
         "IndexName": "GSI_Inverted",
-        "KeyConditionExpression": "#SK = :account_number",
-        "ExpressionAttributeNames": {"#SK":"SK"},
-        "ExpressionAttributeValues": {":account_number": {"S":account_number}}
+        "KeyConditionExpression": "#SK = :account_number AND begins_with(#PK,:cust)",
+        "ExpressionAttributeNames": {"#SK":"SK", "#PK": "PK"},
+        "ExpressionAttributeValues": {":account_number": {"S":account_number}, ":cust": {"S":"CUST#"}}
     }
     # Use this with GetItem(..) if CUST# is known
     # return {
@@ -183,13 +185,14 @@ def main():
     dynamodb_client = create_dynamodb_client()
 
     # 1. Create the account query input
-    query_input = create_account_query_input(CUST_NUMBER, ACCT_NUMBER)
+    query_input = create_account_query_input(ACCT_NUMBER)
     # 2. Run the query
     account_info = execute_account_query(dynamodb_client, query_input)
     # 3. Get the balance & last txn number
     LAST_ACCOUNT_TXN_NUMBER=account_info['Items'][0]['acct_last_txn']['N']
     ACCT_BALANCE=account_info['Items'][0]['acct_balance']['N']
-    print("Query Sucessful :   Acct Balance = {},  Last Acct Txn Number = {}".format(ACCT_BALANCE,LAST_ACCOUNT_TXN_NUMBER))
+    CUST_NUMBER = account_info['Items'][0]['PK']['S']
+    print("Query Sucessful :   Acct Balance = {},  Last Acct Txn Number = {} Customer: {}".format(ACCT_BALANCE,LAST_ACCOUNT_TXN_NUMBER,CUST_NUMBER))
 
     # 4. Next txn number
     LATEST_TXN_NUMBER=int(LAST_ACCOUNT_TXN_NUMBER)+1
@@ -208,7 +211,7 @@ def main():
         transact_write_items_input = create_debit_transact_write_items_input(CUST_NUMBER,ACCT_NUMBER,LAST_ACCOUNT_TXN_NUMBER, str(LATEST_TXN_NUMBER),TXN_DATE,TXN_TYPE,str(txn_amount) )
 
     # Uncomment to check the transact items
-    # print(transact_write_items_input)
+    print(transact_write_items_input)
 
     # 6. Call DynamoDB's transact_write_items API
     execute_transact_write_items(dynamodb_client, transact_write_items_input)
