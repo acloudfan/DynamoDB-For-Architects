@@ -46,10 +46,20 @@ def create_dynamodb_client(region="localhost"):
 def create_account_query_input(customer_number, account_number):
     return {
         "TableName": TABLE_NAME,
-        "KeyConditionExpression": "#PK = :cust_number And #SK = :account_number",
-        "ExpressionAttributeNames": {"#PK":"PK","#SK":"SK"},
-        "ExpressionAttributeValues": {":cust_number": {"S":customer_number},":account_number": {"S":account_number}}
+        "IndexName": "GSI_Inverted",
+        "KeyConditionExpression": "#SK = :account_number",
+        "ExpressionAttributeNames": {"#SK":"SK"},
+        "ExpressionAttributeValues": {":account_number": {"S":account_number}}
     }
+    # Use this with GetItem(..) if CUST# is known
+    # return {
+    #     "TableName": TABLE_NAME,
+    #     "IndexName": "GSI_Inverted",
+    #     "KeyConditionExpression": "#PK = :cust_number And #SK = :account_number",
+    #     "ExpressionAttributeNames": {"#PK":"PK","#SK":"SK"},
+    #     "ExpressionAttributeValues": {":cust_number": {"S":customer_number},":account_number": {"S":account_number}}
+    # }
+    
 
 # 2. Execute the query
 def execute_account_query(dynamodb_client, input):
