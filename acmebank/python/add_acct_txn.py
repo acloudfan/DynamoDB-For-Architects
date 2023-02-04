@@ -10,11 +10,11 @@ TABLE_NAME="acme-bank-v11"
 # CUST_NUMBER="CUST#101"
 
 # Change the account number
-ACCT_NUMBER="ACCT#672"
+ACCT_NUMBER="ACCT#501"
 
 # Change these to add transaction with 
 # A positive amount is a Credit and negative amount is Debit
-TXN_AMOUNT="134"
+TXN_AMOUNT="50"
 TXN_DATE="2023/01/01"
 TXN_TYPE="atm"
 
