@@ -14,7 +14,7 @@ ACCT_NUMBER="ACCT#501"
 
 # Change these to add transaction with 
 # A positive amount is a Credit and negative amount is Debit
-TXN_AMOUNT="10"
+TXN_AMOUNT="100"
 TXN_DATE="2023/01/18"
 TXN_TYPE="check"
 
@@ -196,7 +196,7 @@ def main():
 
     # 4. Next txn number
     LATEST_TXN_NUMBER=int(LAST_ACCOUNT_TXN_NUMBER)+1
-    print("Next Txn Number : TXN#{}".format(LATEST_TXN_NUMBER))
+    # print("Next Txn Number : TXN#{}".format(LATEST_TXN_NUMBER))
 
     # SIMULATE (Last txn number mismatch) failure, uncomment the line below
     # LAST_ACCOUNT_TXN_NUMBER = str(int(LAST_ACCOUNT_TXN_NUMBER) - 1)
