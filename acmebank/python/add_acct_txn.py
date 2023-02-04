@@ -14,9 +14,9 @@ ACCT_NUMBER="ACCT#501"
 
 # Change these to add transaction with 
 # A positive amount is a Credit and negative amount is Debit
-TXN_AMOUNT="50"
-TXN_DATE="2023/01/15"
-TXN_TYPE="atm"
+TXN_AMOUNT="10"
+TXN_DATE="2023/01/18"
+TXN_TYPE="check"
 
 ERROR_HELP_STRINGS = {
     # Operation specific errors
