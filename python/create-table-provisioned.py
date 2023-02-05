@@ -7,6 +7,9 @@ import sys
 # Python library (AWS SDK)
 dynamodb = boto3.client('dynamodb')
 
+# Uncomment this line to create table in local
+# dynamodb = boto3.client("dynamodb", region_name="localhost", endpoint_url="http://localhost:8000", aws_access_key_id="access_key_id", aws_secret_access_key="secret_access_key")
+
 TABLE_NAME=''
 
 args = sys.argv[1:]
