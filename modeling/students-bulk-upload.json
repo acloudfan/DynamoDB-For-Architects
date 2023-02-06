@@ -1,0 +1,11 @@
+[
+    {
+        "email": "raj@xyz.com",
+        "name": "rajeev",
+        "grade": 10,
+        "courses": [
+            "history",
+            "physics"
+        ]
+    }
+]

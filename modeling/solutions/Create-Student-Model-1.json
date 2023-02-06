@@ -1,0 +1,119 @@
+{
+  "ModelName": "Student-Model",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Feb 05, 2023, 04:18 PM",
+    "DateLastModified": "Feb 05, 2023, 04:22 PM",
+    "Description": "Part of a course on \"DynamoDB Data Modeling for Architects\"",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "Students",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "email",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "name",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "grade",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "courses",
+          "AttributeType": "SS"
+        }
+      ],
+      "TableData": [
+        {
+          "email": {
+            "S": "john@xyz.com"
+          },
+          "name": {
+            "S": "John"
+          },
+          "grade": {
+            "S": "7"
+          },
+          "courses": {
+            "SS": [
+              "History I.",
+              "Physics II."
+            ]
+          }
+        },
+        {
+          "email": {
+            "S": "jane@abc.com"
+          },
+          "name": {
+            "S": "Jane"
+          },
+          "grade": {
+            "S": "6"
+          },
+          "courses": {
+            "SS": [
+              "Civics",
+              "Organic Chem"
+            ]
+          }
+        },
+        {
+          "email": {
+            "S": "anil@pqr.com"
+          },
+          "name": {
+            "S": "Anil"
+          },
+          "grade": {
+            "S": "8"
+          },
+          "courses": {
+            "SS": [
+              "Math II",
+              "Chem I."
+            ]
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}

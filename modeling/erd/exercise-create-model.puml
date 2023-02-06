@@ -1,0 +1,17 @@
+@startuml
+
+skinparam backgroundColor transparent
+
+entity Student {
+    email  <<String - PK>>
+    name   <<String>>
+    grade  <<Number>>
+    courses <<String Set>>
+}
+
+' entity Courses {
+    
+' }
+
+
+@enduml
