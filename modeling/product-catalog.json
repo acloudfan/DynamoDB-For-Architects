@@ -1,0 +1,481 @@
+{
+  "ModelName": "product-catalog",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Feb 07, 2023, 01:15 PM",
+    "DateLastModified": "Feb 07, 2023, 03:58 PM",
+    "Description": "part of a course on DynamoDB data modeling",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "product-catalog-original",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "TableData": [
+        {
+          "PK": {
+            "S": "CAT#ART"
+          },
+          "SK": {
+            "S": "PAINTING#101"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART"
+          },
+          "SK": {
+            "S": "SCULPTURE#401"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART"
+          },
+          "SK": {
+            "S": "CRYSTAL#201"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "MUSIC#301"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "COMPUTER#302"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "TV#303"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "GAMING#304"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE"
+          },
+          "SK": {
+            "S": "CHAIRS#801"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE"
+          },
+          "SK": {
+            "S": "TABLE#802"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    },
+    {
+      "TableName": "product-catalog-p1-natural-key",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "DataAccess": {
+        "MySql": {}
+      },
+      "TableData": [
+        {
+          "PK": {
+            "S": "CAT#ART#PAINTING"
+          },
+          "SK": {
+            "S": "101"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART#SCULPTURE"
+          },
+          "SK": {
+            "S": "401"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART#CRYSTAL"
+          },
+          "SK": {
+            "S": "201"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC#MUSIC"
+          },
+          "SK": {
+            "S": "301"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC#COMPUTER"
+          },
+          "SK": {
+            "S": "302"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC#TV"
+          },
+          "SK": {
+            "S": "303"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC#GAMING"
+          },
+          "SK": {
+            "S": "304"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE#CHAIRS"
+          },
+          "SK": {
+            "S": "801"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE#TABLE"
+          },
+          "SK": {
+            "S": "802"
+          }
+        }
+      ],
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    },
+    {
+      "TableName": "product-catalog-p3-prefix-shard",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "DataAccess": {
+        "MySql": {}
+      },
+      "TableData": [
+        {
+          "PK": {
+            "S": "CAT#ART"
+          },
+          "SK": {
+            "S": "PAINTING#101"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART"
+          },
+          "SK": {
+            "S": "SCULPTURE#401"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART"
+          },
+          "SK": {
+            "S": "CRYSTAL#201"
+          }
+        },
+        {
+          "PK": {
+            "S": "SHARD1#CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "MUSIC#301"
+          }
+        },
+        {
+          "PK": {
+            "S": "SHARD2#CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "COMPUTER#302"
+          }
+        },
+        {
+          "PK": {
+            "S": "SHARD3#CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "TV#303"
+          }
+        },
+        {
+          "PK": {
+            "S": "SHARD1#CAT#ELECTRONIC"
+          },
+          "SK": {
+            "S": "GAMING#304"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE"
+          },
+          "SK": {
+            "S": "CHAIRS#801"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE"
+          },
+          "SK": {
+            "S": "TABLE#802"
+          }
+        }
+      ],
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    },
+    {
+      "TableName": "product-catalog-p4-suffix",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "DataAccess": {
+        "MySql": {}
+      },
+      "TableData": [
+        {
+          "PK": {
+            "S": "CAT#ART_1"
+          },
+          "SK": {
+            "S": "PAINTING#101"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART_2"
+          },
+          "SK": {
+            "S": "SCULPTURE#401"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ART_3"
+          },
+          "SK": {
+            "S": "CRYSTAL#201"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC_1"
+          },
+          "SK": {
+            "S": "MUSIC#301"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC_2"
+          },
+          "SK": {
+            "S": "COMPUTER#302"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC_3"
+          },
+          "SK": {
+            "S": "TV#303"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#ELECTRONIC_3"
+          },
+          "SK": {
+            "S": "GAMING#304"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE_1"
+          },
+          "SK": {
+            "S": "CHAIRS#801"
+          }
+        },
+        {
+          "PK": {
+            "S": "CAT#FURNITURE_2"
+          },
+          "SK": {
+            "S": "TABLE#802"
+          }
+        }
+      ],
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "ModelName": "example-order",
+  "ModelMetadata": {
+    "Author": "raj@acloudfan.com",
+    "DateCreated": "Jan 17, 2023, 08:48 AM",
+    "DateLastModified": "Jan 17, 2023, 08:54 AM",
+    "Description": "Part of a course",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "example-customer-order-table",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "email",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "order_number",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "order_amount",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "order_status",
+          "AttributeType": "S"
+        }
+      ],
+      "TableData": [
+        {
+          "email": {
+            "S": "john@doe.com"
+          },
+          "order_number": {
+            "S": "2020/01/03#1244"
+          },
+          "order_amount": {
+            "S": "20"
+          },
+          "order_status": {
+            "S": "shipped"
+          }
+        },
+        {
+          "email": {
+            "S": "john@doe.com"
+          },
+          "order_number": {
+            "S": "2020/01/03#2123"
+          },
+          "order_amount": {
+            "S": "91"
+          },
+          "order_status": {
+            "S": "cancelled"
+          }
+        },
+        {
+          "email": {
+            "S": "john@doe.com"
+          },
+          "order_number": {
+            "S": "2020/02/15#2199"
+          },
+          "order_amount": {
+            "S": "102"
+          },
+          "order_status": {
+            "S": "shipped"
+          }
+        },
+        {
+          "email": {
+            "S": "john@doe.com"
+          },
+          "order_number": {
+            "S": "2020/06/09#3025"
+          },
+          "order_amount": {
+            "S": "31"
+          },
+          "order_status": {
+            "S": "shipped"
+          }
+        },
+        {
+          "email": {
+            "S": "john@doe.com"
+          },
+          "order_number": {
+            "S": "2020/09/11#3452"
+          },
+          "order_amount": {
+            "S": "72"
+          },
+          "order_status": {
+            "S": "shipped"
+          }
+        },
+        {
+          "email": {
+            "S": "john@doe.com"
+          },
+          "order_number": {
+            "S": "2020/11/30#3876"
+          },
+          "order_amount": {
+            "S": "29"
+          },
+          "order_status": {
+            "S": "pending"
+          }
+        },
+        {
+          "email": {
+            "S": "pete@abc.com"
+          },
+          "order_number": {
+            "S": "2020/12/31"
+          },
+          "order_amount": {
+            "S": "45"
+          },
+          "order_status": {
+            "S": "shipped"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}
