@@ -1,0 +1,12 @@
+# Pattern-1
+{"eventName": ["INSERT"]}
+
+# Pattern-2
+{
+    "dynamodb":
+    {
+        "NewImage": {
+            "PK": {"S":[{"prefix": "CUST#"}, {"prefix": "TXN#"}]}
+        }
+    }
+}

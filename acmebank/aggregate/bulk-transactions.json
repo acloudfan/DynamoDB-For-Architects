@@ -1,0 +1,59 @@
+[
+    {
+        "PK": "CUST#400",
+        "SK": "CUST#400"
+    },
+    {
+        "PK": "CUST#400",
+        "SK": "ACCT#530"
+    },
+    {
+        "PK": "CUST#401",
+        "SK": "CUST#401"
+    },
+    {
+        "PK": "CUST#401",
+        "SK": "ACCT#531"
+    },
+    {
+        "PK": "CUST#402",
+        "SK": "CUST#402"
+    },
+    {
+        "PK": "CUST#402",
+        "SK": "ACCT#532"
+    },
+    {
+        "PK": "CUST#402",
+        "SK": "ACCT#533"
+    },
+    {
+        "PK": "CUST#402",
+        "SK": "ACCT#534"
+    },
+    {
+        "PK": "TXN#534#100",
+        "SK": "ACCT#534",
+        "txn_amount": 100
+    },
+    {
+        "PK": "TXN#534#101",
+        "SK": "ACCT#534",
+        "txn_amount": 1301
+    },
+    {
+        "PK": "TXN#533#100",
+        "SK": "ACCT#533",
+        "txn_amount": 542
+    },
+    {
+        "PK": "TXN#533#101",
+        "SK": "ACCT#533",
+        "txn_amount": -43
+    },
+    {
+        "PK": "TXN#533#102",
+        "SK": "ACCT#533",
+        "txn_amount": -57
+    }
+]

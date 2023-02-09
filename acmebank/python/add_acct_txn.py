@@ -14,8 +14,8 @@ ACCT_NUMBER="ACCT#501"
 
 # Change these to add transaction with 
 # A positive amount is a Credit and negative amount is Debit
-TXN_AMOUNT="100"
-TXN_DATE="2023/01/18"
+TXN_AMOUNT="13"
+TXN_DATE="2023/02/09"
 TXN_TYPE="check"
 
 ERROR_HELP_STRINGS = {
@@ -41,8 +41,8 @@ def create_dynamodb_client(region="localhost"):
    return boto3.client("dynamodb", region_name="localhost", endpoint_url="http://localhost:8000", aws_access_key_id="access_key_id", aws_secret_access_key="secret_access_key")
 
 # Use the following function instead when using DynamoDB on AWS cloud
-# def create_dynamodb_client(region="us-east-1"):
-#     return boto3.client("dynamodb", region_name=region)
+# def create_dynamodb_client() :
+#     return boto3.client("dynamodb") 
 
 # 1. Create expression for the query
 def create_account_query_input(account_number):
