@@ -4,7 +4,7 @@
 import boto3
 import json
 import sys
-from datetime import date
+from datetime import datetime,date,timedelta
 
 
 # Read arguments
@@ -40,6 +40,7 @@ with table.batch_writer() as batch:
         batch.delete_item(Key=key)
 
     pk = "AGG#"+ date.today().strftime("%Y/%m/%d")
+    print(f'Delete the items with PK={pk}')
     agg_key = {"PK": pk, "SK": "CUSTOMERS"}
     batch.delete_item(Key=agg_key)
     agg_key = {"PK": pk, "SK": "ACCOUNTS"}
@@ -49,5 +50,17 @@ with table.batch_writer() as batch:
     agg_key = {"PK": pk, "SK": "TXN#DEBIT"}
     batch.delete_item(Key=agg_key)
     
+    presentday = datetime.now()
+    tomorrow = presentday + timedelta(1)
+    pk = "AGG#"+ tomorrow.strftime("%Y/%m/%d")
+    print(f'Delete the items with PK={pk}')
+    agg_key = {"PK": pk, "SK": "CUSTOMERS"}
+    batch.delete_item(Key=agg_key)
+    agg_key = {"PK": pk, "SK": "ACCOUNTS"}
+    batch.delete_item(Key=agg_key)
+    agg_key = {"PK": pk, "SK": "TXN#CREDIT"}
+    batch.delete_item(Key=agg_key)
+    agg_key = {"PK": pk, "SK": "TXN#DEBIT"}
+    batch.delete_item(Key=agg_key)
 
 print('DELETE - Done.')
