@@ -84,3 +84,24 @@ aws dynamodb query `
       \":pk\": {\"S\": \"C#NJ\"}
    }' `
    --endpoint-url   http://localhost:8000
+
+
+################
+# Streams demo #
+################
+
+Enable streams
+--------------
+aws dynamodb update-table \
+    --table-name example-customer-order-table \
+    --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES \
+    --endpoint-url http://localhost:8000
+
+Disable streams
+---------------
+aws dynamodb update-table \
+    --table-name example-customer-order-table \
+    --stream-specification StreamEnabled=false \
+    --endpoint-url http://localhost:8000
+
+
