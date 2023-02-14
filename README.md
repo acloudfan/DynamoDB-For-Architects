@@ -1,17 +1,9 @@
-###################
-# NoSQL Workbench #
-###################
-https://aws.amazon.com/blogs/aws/nosql-workbench-for-amazon-dynamodb-available-in-preview/
+# Repository is part of a course by Raj @ ACloudFan.com
+  DynamoDB Data Modeling for Architects & Developers
 
-###############
-# Date format #
-###############
-https://en.wikipedia.org/wiki/ISO_8601
+# Checkout course guide
+  http://ddb.acloudfan.com/
 
 
-#################################
-# Write : Condition expressions #
-#################################
-If the Condition Expression evaluates to false, the write will be aborted
 
-https://www.alexdebrie.com/posts/dynamodb-condition-expressions/
+
