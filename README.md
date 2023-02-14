@@ -4,6 +4,9 @@
 # Checkout course guide
   http://ddb.acloudfan.com/
 
+# Join course on Udemy
+  https://www.udemy.com/course/dynamodb-data-modeling/?referralCode=B70EF281246611080E3F
+
 
 
 
