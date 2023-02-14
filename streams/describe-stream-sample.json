@@ -1,0 +1,77 @@
+{
+    "StreamDescription": {
+        "StreamArn": "arn:aws:dynamodb:us-east-1:xxxxxxxxxxxx:table/acme-bank-v12/stream/2023-02-10T01:55:51.765",
+        "StreamLabel": "2023-02-10T01:55:51.765",
+        "StreamStatus": "ENABLED",
+        "StreamViewType": "NEW_IMAGE",
+        "CreationRequestDateTime": "2023-02-09T20:55:51.757000-05:00",       
+        "TableName": "acme-bank-v12",
+        "KeySchema": [
+            {
+                "AttributeName": "PK",
+                "KeyType": "HASH"
+            },
+            {
+                "AttributeName": "SK",
+                "KeyType": "RANGE"
+            }
+        ],
+        "Shards": [
+            {
+                "ShardId": "shardId-00000001676020721514-3827bfab",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "1497100000000001824396572",  
+                    "EndingSequenceNumber": "1497100000000001824396572"     
+                },
+                "ParentShardId": "shardId-00000001676006840013-61199255"    
+            },
+            {
+                "ShardId": "shardId-00000001676034676304-2ce1c743",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "2265700000000046875743359",  
+                    "EndingSequenceNumber": "2265700000000046875743359"     
+                },
+                "ParentShardId": "shardId-00000001676020721514-3827bfab"    
+            },
+            {
+                "ShardId": "shardId-00000001676047668543-0db57abb",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "2982000000000038127320725",  
+                    "EndingSequenceNumber": "2982000000000038127320725"     
+                },
+                "ParentShardId": "shardId-00000001676034676304-2ce1c743"    
+            },
+            {
+                "ShardId": "shardId-00000001676061300546-51cb381c",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "3733100000000000929850537",  
+                    "EndingSequenceNumber": "3733100000000000929850537"     
+                },
+                "ParentShardId": "shardId-00000001676047668543-0db57abb"    
+            },
+            {
+                "ShardId": "shardId-00000001676074782070-b13a9a1e",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "4476200000000040519794703",  
+                    "EndingSequenceNumber": "4476200000000040519794703"     
+                },
+                "ParentShardId": "shardId-00000001676061300546-51cb381c"    
+            },
+            {
+                "ShardId": "shardId-00000001676088317793-4ebd55e8",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "5222500000000001814596689",  
+                    "EndingSequenceNumber": "5222500000000001814596689"     
+                },
+                "ParentShardId": "shardId-00000001676074782070-b13a9a1e"    
+            },
+            {
+                "ShardId": "shardId-00000001676101847291-5d809789",
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "5968800000000027077443470"   
+                },
+                "ParentShardId": "shardId-00000001676088317793-4ebd55e8"     
+            }
+        ]
+    }
+}

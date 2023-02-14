@@ -1,0 +1,29 @@
+{
+    'eventID': '3ae6d190-238b-464a-9502-869638dceeb0', 
+    'eventName': 'MODIFY', 
+    'eventVersion': '1.1', 
+    'eventSource': 'aws:dynamodb', 
+    'awsRegion': 'ddblocal', 
+    'dynamodb': {
+        'ApproximateCreationDateTime': 'datetime.datetime(2023,2,10,8,15, tzinfo=tzlocal())', 
+        'Keys': {
+            'order_number': {'S': '2023/01/01#1344'}, 
+            'email': {'S': 'anil@example.com'}
+        }, '
+        NewImage': {
+            'order_status': {'S': 'shipped'}, 
+            'order_amount': {'N': '234'}, 
+            'order_number': {'S': '2023/01/01#1344'}, 
+            'email': {'S': 'anil@example.com'}
+        }, 
+        'OldImage': {
+            'order_status': {'S': 'pending'}, 
+            'order_number': {'S': '2023/01/01#1344'}, 
+            'order_amount': {'N': '234'}, 
+            'email': {'S': 'anil@example.com'}
+        }, 
+        'SequenceNumber': '000000000000000000651', 
+        'SizeBytes': 221, 
+        'StreamViewType': 'NEW_AND_OLD_IMAGES'
+    }
+}

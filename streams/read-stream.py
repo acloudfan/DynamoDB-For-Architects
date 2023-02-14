@@ -46,7 +46,9 @@ def  get_latest_records(last_sequence_number):
 
     # 5. Loop through the records. Print only if seq# of record > last_sequence_number
     # Loop to receive the items
+    
     for record in records:        
+        # print(record)
         if last_sequence_number=='' or record["dynamodb"]["SequenceNumber"] > last_sequence_number :
             print("eventName = {}, Sequence# = {}".format(record["eventName"], record["dynamodb"]["SequenceNumber"]))
             print(record["dynamodb"]["Keys"])
@@ -56,6 +58,7 @@ def  get_latest_records(last_sequence_number):
     return last_sequence_number
 
 # Read existing & new stream recods from 0th shard
+print('Reading DynamoDB Stream:')
 last_sequence_number=''
 while True:
     last_sequence_number = get_latest_records(last_sequence_number)

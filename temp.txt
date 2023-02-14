@@ -1,0 +1,8 @@
+arn:aws:dynamodb:ddblocal:000000000000:table/example-customer-order-table/stream/2023-02-10T14:01:15.211
+
+
+shardId-00000001676037675213-f32dc9a7
+
+aws dynamodbstreams get-records \
+   --endpoint-url http://localhost:8000 \
+   --shard-iterator  'arn:aws:dynamodb:ddblocal:000000000000:table/example-customer-order-table/stream/2023-02-10T14:01:15.211|001|c2hhcmRJZC0wMDAwMDAwMTY3NjAzNzY3NTIxMy1mMzJkYzlhN3wwMDAwMDAwMDAwMDAwMDAwMDA2Njh8MDAwMDAwMDAwMDAwMDAwMDAxNjc2MTE0OTEwNDY2'

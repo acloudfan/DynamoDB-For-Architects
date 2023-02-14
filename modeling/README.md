@@ -86,9 +86,12 @@ aws dynamodb query `
    --endpoint-url   http://localhost:8000
 
 
-################
-# Streams demo #
-################
+####################
+# Streams Execrise #
+####################
+http://ddb.acloudfan.com/24-streams/10-ex-streams-python/
+
+
 
 Enable streams
 --------------
@@ -105,3 +108,8 @@ aws dynamodb update-table \
     --endpoint-url http://localhost:8000
 
 
+Delete table
+------------
+aws dynamodb delete-table \
+    --table-name example-customer-order-table \
+    --endpoint-url http://localhost:8000

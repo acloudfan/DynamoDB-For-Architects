@@ -264,12 +264,19 @@ Optional Exercise
 #################
 # Iteration# 12 #
 #################
+http://localhost:1313/24-streams/10-ex-streams-python/
 
 * Generate daily Stats report
 * Use DynamoDB Stream with Lambda function
 
 
+
+
+
+
+
 #########################
+# Iteration#12          #
 # Lambda Function Setup #
 # for Stream            #
 #########################
