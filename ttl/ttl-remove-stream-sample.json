@@ -1,0 +1,18 @@
+{'eventID': '348b3dae-64d7-4bd3-934a-246f831f3135', 
+ 'eventName': 'REMOVE', 
+ 'eventVersion': '1.1', 
+ 'eventSource': 'aws:dynamodb', 
+ 'awsRegion': 'ddblocal', 
+ 'dynamodb': {'ApproximateCreationDateTime': 'datetime.datetime(2018,2,15,20,26, tzinfo=tzlocal())', 
+ 'Keys': {'PK': {'S': '2018-02-15-20: 26: 05.196287'} }, 
+          'OldImage': {'PK': {'S': '2018-02-15-20: 26: 05.196287'}, 
+          'text': {'S': 'Item will expire at 1429478375'}, 
+          'ttl': {'N': '1429478375'}
+        }, 'SequenceNumber': '000000000000000000040', 
+        'SizeBytes': 99, 
+        'StreamViewType': 'OLD_IMAGE'}, 
+        'userIdentity': {
+            'PrincipalId': 'dynamodb.amazonaws.com', 
+            'Type': 'Service'
+        }
+}

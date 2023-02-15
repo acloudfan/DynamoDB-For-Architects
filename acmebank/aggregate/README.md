@@ -2,6 +2,10 @@
 # Code samples #
 ################
 
+# For Instructions on How-to-use
+# Refer: 
+http://ddb.acloudfan.com/25-modeling-aggregations/
+
 
 
 # Update stream on table
