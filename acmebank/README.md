@@ -264,11 +264,17 @@ Optional Exercise
 #################
 # Iteration# 12 #
 #################
-http://localhost:1313/24-streams/10-ex-streams-python/
+https://localhost:1313/24-streams/10-ex-streams-python/
 
 * Generate daily Stats report
 * Use DynamoDB Stream with Lambda function
 
+#################
+# Iteration# 13 #
+#################
+https://ddb.acloudfan.com/26-modeling-transaction-archival/
+
+* Archive transactions older than 7 years
 
 
 
