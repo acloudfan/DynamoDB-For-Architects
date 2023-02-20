@@ -34,7 +34,7 @@ python ./ttl/put-and-wait-for-expiry.py
 # Try out TTL/Stream #
 ######################
 
-# 1. Follow the steaps above to setup table with TTL enabled
+# 1. Follow the steps above to setup table with TTL enabled
 
 # 2. Enable DynamoDb stream
 
